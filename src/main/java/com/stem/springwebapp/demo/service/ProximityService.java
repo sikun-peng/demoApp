@@ -43,7 +43,7 @@ public class ProximityService {
     
     @Transactional(readOnly = true)
     public List<Proximity> getUserProximities(int user_id) {
-        return em.createQuery("SELECT * FROM Proximity WHERE user_id = user_id").getResultList();
+        return em.createNativeQuery("SELECT * FROM Proximity WHERE user_id = '"+user_id+"'").getResultList();
     }
 
     @Cacheable(PROXIMITY )

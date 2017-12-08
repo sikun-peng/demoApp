@@ -29,6 +29,11 @@ CREATE VIEW public.proximity AS
           GROUP BY md2.userid, md2.locationtype) u
   WHERE t.locationtype = u.locationtype and t.userid=’1’;
   
+  
+  QUERY: For the proximity use case for all users
+-----------
+select sum(happy_rate)/count(happy_rate) as happy_rate, p.location_type from proximity p group by location_type, happy_count
+ 
  */
 
 @Entity
