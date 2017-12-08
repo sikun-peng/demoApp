@@ -41,17 +41,17 @@ public class PictureService {
 
     public int getAllFrequency() {
         String sql = "select  md.mood, count(mood) as moodcount from mood_distribution md group by mood";
-        return (int) em.createQuery(sql).getSingleResult();
+        return (int) em.createNativeQuery(sql).getSingleResult();
     }
     
     public int getUserFrequency(String user_id) {
         String sql = "select md.userid, md.mood, count(mood) as moodcount from mood_distribution md group by mood, userid having userid = user_id";
-        return (int) em.createQuery(sql).getSingleResult();
+        return (int) em.createNativeQuery(sql).getSingleResult();
     }
   
     @Transactional(readOnly = true)
     public List<Picture> getAllPictures() {
-        return em.createQuery("FROM Picture").getResultList();
+        return em.createNativeQuery("FROM Picture").getResultList();
     }
 
     @Cacheable(PICTURES)

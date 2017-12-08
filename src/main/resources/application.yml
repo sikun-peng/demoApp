@@ -1,0 +1,21 @@
+spring:
+  profiles: unitTest
+  jpa:
+    database: H2
+    database-platform: org.hibernate.dialect.H2Dialect
+    show-sql: false
+    hibernate: 
+      ddl-auto: create-drop
+    
+  datasource:
+    test-while-idle: true
+    driver-class-name: org.h2.Driver
+    tomcat:
+      max-active: 100
+      max-idle: 20
+      min-idle: 10  
+logging: 
+  level: 
+    com.predix.ddl: INFO
+    root: INFO
+     
