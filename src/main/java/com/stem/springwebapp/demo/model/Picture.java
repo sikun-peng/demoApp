@@ -7,6 +7,32 @@ import javax.persistence.Id;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
+/*
+ *
+ * TABLE:  For storing all the mood information
+----------
+ 
+CREATE TABLE public."mood_distribution" (
+   pictureid   integer,
+   latitude   double precision,
+   longitude   double precision,
+   userid   text,
+   locationtype   text,
+   mood   text
+)
+
+
+FREQUENCY: Per user
+--------------------
+select md.userid, md.mood, count(mood) as moodcount from mood_distribution md group by mood, userid having userid='1'
+  
+ 
+FREQUENCY: All users
+--------------------
+select  md.mood, count(mood) as moodcount from mood_distribution md group by mood
+
+
+ */
 
 @Entity
 public class Picture implements Serializable {

@@ -51,7 +51,7 @@ public class PictureService {
   
     @Transactional(readOnly = true)
     public List<Picture> getAllPictures() {
-        return em.createNativeQuery("FROM Picture").getResultList();
+        return em.createQuery("FROM Picture").getResultList();
     }
 
     @Cacheable(PICTURES)
