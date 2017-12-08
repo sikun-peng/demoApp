@@ -63,7 +63,7 @@ public class Proximity implements Serializable {
         return happy_rate;
     }
 
-    public void setLongitude(int happy_rate) {
+    public void setHappyRate(int happy_rate) {
         this.happy_rate = happy_rate;
     } 
     

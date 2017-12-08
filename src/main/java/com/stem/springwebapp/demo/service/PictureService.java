@@ -13,7 +13,6 @@ import com.stem.springwebapp.demo.model.Picture;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
-import java.util.Collection;
 import java.util.List;
 
 @Service
@@ -27,7 +26,7 @@ public class PictureService {
     @PersistenceContext
     private EntityManager em;
 
-    public Picture createPicture(Mood mood, Double latitude, Double longitude) {
+    public Picture createPicture(Mood mood, String user_id,  Double latitude, Double longitude) {
     	
         Picture picture = new Picture();
         picture.setMood(mood);
@@ -40,7 +39,7 @@ public class PictureService {
         return picture;
     }
 
-    public int frequency(Mood mood) {
+    public int frequency() {
         String sql = "SELECT COUNT(*) FROM PICTURE p WHERE p.mode = mood)";
         return (int) em.createQuery(sql).getSingleResult();
     }
@@ -63,9 +62,10 @@ public class PictureService {
     }
 
     @CachePut(value = PICTURES, key = "#id")
-    public void updatePicture(Integer id, Mood mood, Double latitude, Double longitude) {
+    public void updatePicture(Integer id, Mood mood, String user_id, Double latitude, Double longitude) {
     		Picture picture = getPictureById(id);
         picture.setMood(mood);
+        picture.setUserId(user_id);
         picture.setLatitude(latitude);
         picture.setLongitude(longitude);
         String location_type = map_service.getMapService(Double.toString(latitude), Double.toString(longitude)); // calling third party map service to get location type

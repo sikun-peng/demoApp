@@ -19,7 +19,9 @@ public class Picture implements Serializable {
 
     @NotNull
     private Mood mood;
-
+    
+    private String user_id;
+    
     private Double latitude;
     
     private Double longitude;
@@ -43,6 +45,14 @@ public class Picture implements Serializable {
         this.mood = mood;
     }
 
+    public String getUserId() {
+        return user_id;
+    }
+    
+    public void setUserId(String user_id){
+    		this.user_id = user_id;
+    }
+    
     public Double getLatutude() {
         return latitude;
     }
@@ -51,7 +61,6 @@ public class Picture implements Serializable {
         this.latitude = latitude;
     }
 
-    
     public Double getLongitude() {
         return longitude;
     }
