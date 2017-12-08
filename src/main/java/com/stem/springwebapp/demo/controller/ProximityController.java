@@ -35,16 +35,17 @@ public class ProximityController {
     
     
     @RequestMapping(value = PROXIMITY, method = RequestMethod.GET)
-    public Collection<Proximity> proximity() throws Exception {
-        Collection<Proximity> customers = proximityService.getAllProximities();
-        return customers;
+    public Collection<Proximity> getAllproximity() throws Exception {
+        Collection<Proximity> proximity = proximityService.getAllProximities();
+        return proximity;
+    }
+    
+    @RequestMapping(value = PROXIMITY, method = RequestMethod.GET)
+    public Collection<Proximity> getUserproximity(@RequestParam String user_id) throws Exception {
+        Collection<Proximity> proximity = proximityService.getUserProximities(user_id);
+        return proximity;
     }
 
-    @RequestMapping(value = PROXIMITY, method = RequestMethod.POST)
-    public Integer addPicture(@RequestParam String location_type, @RequestParam int happy_count, @RequestParam int total_count,  @RequestParam  int happy_rate ) {
-    		LOGGER.info("add proximity");
-    		return proximityService.createProximity(location_type, happy_count,  total_count, happy_rate).getId();
-    }
 }
 
 
