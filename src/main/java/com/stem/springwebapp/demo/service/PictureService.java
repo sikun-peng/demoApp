@@ -27,7 +27,7 @@ public class PictureService {
     private EntityManager em;
 
     public Picture createPicture(Mood mood, String user_id,  Double latitude, Double longitude) {
-    	
+  	
         Picture picture = new Picture();
         picture.setMood(mood);
         picture.setLatitude(latitude);
@@ -39,13 +39,18 @@ public class PictureService {
         return picture;
     }
 
-    public int frequency() {
-        String sql = "SELECT COUNT(*) FROM PICTURE p WHERE p.mode = mood)";
+    public int getAllFrequency() {
+        String sql = "select  md.mood, count(mood) as moodcount from mood_distribution md group by mood";
+        return (int) em.createQuery(sql).getSingleResult();
+    }
+    
+    public int getUserFrequency(String user_id) {
+        String sql = "select md.userid, md.mood, count(mood) as moodcount from mood_distribution md group by mood, userid having userid = user_id";
         return (int) em.createQuery(sql).getSingleResult();
     }
   
     @Transactional(readOnly = true)
-    public List<Picture> getAllMoods() {
+    public List<Picture> getAllPictures() {
         return em.createQuery("FROM Picture").getResultList();
     }
 

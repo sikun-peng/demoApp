@@ -6,7 +6,6 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.stem.springwebapp.demo.model.MapService;
 import com.stem.springwebapp.demo.model.Proximity;
 
 import javax.persistence.EntityManager;
@@ -20,8 +19,6 @@ import java.util.List;
 public class ProximityService {
 
     public static final String PROXIMITY = "proximity";
-    MapService map_service = new MapService();
-
     @PersistenceContext
     private EntityManager em;
 
@@ -37,14 +34,16 @@ public class ProximityService {
         return proximity;
     }
 
-    public int frequency() {
-        String sql = "SELECT COUNT(*) FROM PICTURE p WHERE p.mode = mood)";
-        return (int) em.createQuery(sql).getSingleResult();
-    }
   
     @Transactional(readOnly = true)
-    public List<Proximity> getAllMoods() {
-        return em.createQuery("FROM Picture").getResultList();
+    public List<Proximity> getAllProximities() {
+        return em.createQuery("FROM Proximity").getResultList();
+    }
+    
+    
+    @Transactional(readOnly = true)
+    public List<Proximity> getUserProximities(int user_id) {
+        return em.createQuery("SELECT * FROM Proximity WHERE user_id = user_id").getResultList();
     }
 
     @Cacheable(PROXIMITY )
