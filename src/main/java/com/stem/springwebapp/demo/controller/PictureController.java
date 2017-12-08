@@ -7,6 +7,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -35,30 +37,30 @@ public class PictureController {
     private static final Logger LOGGER = LoggerFactory.getLogger(PictureController.class);
     
     @RequestMapping(value = PICTURES_FREQUENCY, method = RequestMethod.GET)
-    public int getAllFrequency() throws Exception {
-        return pictureService.getAllFrequency();
+    public ResponseEntity getAllFrequency() throws Exception {
+        return new ResponseEntity<>(pictureService.getAllFrequency(),HttpStatus.FOUND);
     }
 
     @RequestMapping(value = PICTURES_FREQUENCY, method = RequestMethod.GET)
-    public int getUserFrequency(@RequestParam String user_id) throws Exception {
-        return pictureService.getUserFrequency(user_id);
+    public ResponseEntity getUserFrequency(@RequestParam String user_id) throws Exception {
+        return new ResponseEntity<>(pictureService.getUserFrequency(user_id),HttpStatus.FOUND);
     }
     
     @RequestMapping(value = GET_PICTURES_BY_ID, method = RequestMethod.GET)
-    public Picture pictureById(@PathVariable  Integer id) {
-        return this.pictureService.getPictureById(id);
+    public ResponseEntity pictureById(@PathVariable  Integer id) {
+        return new ResponseEntity<> (this.pictureService.getPictureById(id), HttpStatus.FOUND);
     }
     
     @RequestMapping(value = PICTURES, method = RequestMethod.GET)
-    public Collection<Picture> picture() throws Exception {
-        Collection<Picture> customers = pictureService.getAllPictures();
-        return customers;
+    public ResponseEntity picture() throws Exception {
+        Collection<Picture> pictures = pictureService.getAllPictures();
+        return new ResponseEntity<>(pictures, HttpStatus.FOUND);
     }
 
     @RequestMapping(value = PICTURES, method = RequestMethod.POST)
-    public Integer addPicture(@RequestParam Mood mood, @RequestParam String user_id, @RequestParam Double longitude,  @RequestParam Double latitude ) {
+    public ResponseEntity addPicture(@RequestParam Mood mood, @RequestParam String user_id, @RequestParam Double longitude,  @RequestParam Double latitude ) {
     		LOGGER.info("add cutomers");
-    		return pictureService.createPicture(mood, user_id, latitude, longitude).getId();
+    		return new ResponseEntity<>(pictureService.createPicture(mood, user_id, latitude, longitude).getId(), HttpStatus.CREATED);
     }
 }
 

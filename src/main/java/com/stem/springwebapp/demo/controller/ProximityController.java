@@ -7,6 +7,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -35,15 +37,15 @@ public class ProximityController {
     
     
     @RequestMapping(value = PROXIMITY, method = RequestMethod.GET)
-    public Collection<Proximity> getAllproximity() throws Exception {
+    public ResponseEntity<Collection<Proximity>> getAllproximity() throws Exception {
         Collection<Proximity> proximity = proximityService.getAllProximities();
-        return proximity;
+        return new ResponseEntity<> (proximity, HttpStatus.FOUND);
     }
     
     @RequestMapping(value = PROXIMITY, method = RequestMethod.GET)
-    public Collection<Proximity> getUserproximity(@RequestParam String user_id) throws Exception {
+    public ResponseEntity<Collection<Proximity>> getUserproximity(@RequestParam String user_id) throws Exception {
         Collection<Proximity> proximity = proximityService.getUserProximities(user_id);
-        return proximity;
+        return new ResponseEntity<>(proximity, HttpStatus.FOUND);
     }
 
 }
