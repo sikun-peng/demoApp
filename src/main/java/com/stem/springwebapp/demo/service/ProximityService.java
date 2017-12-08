@@ -3,9 +3,16 @@ package com.stem.springwebapp.demo.service;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.client.RestTemplate;
 
+import com.stem.springwebapp.demo.model.Location;
 import com.stem.springwebapp.demo.model.Proximity;
 
 import javax.persistence.EntityManager;
@@ -67,4 +74,6 @@ public class ProximityService {
     	    proximity.setHappyRate(happy_rate);
         em.merge(proximity);
     }
+	  
+    
 }

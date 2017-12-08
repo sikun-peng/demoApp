@@ -3,10 +3,16 @@ package com.stem.springwebapp.demo.service;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.client.RestTemplate;
 
-import com.stem.springwebapp.demo.model.MapService;
+import com.stem.springwebapp.demo.model.Location;
 import com.stem.springwebapp.demo.model.Mood;
 import com.stem.springwebapp.demo.model.Picture;
 
@@ -19,10 +25,10 @@ import java.util.List;
 @SuppressWarnings("unchecked")
 @Transactional
 public class PictureService {
-
+	
+    private static final String mapServiceUrl = "https://mapService.aws-usw02-dev.ice.predix.io/location"; //Not an actual endpoint
     public static final String PICTURES = "pictures";
-    MapService map_service = new MapService();
-
+   
     @PersistenceContext
     private EntityManager em;
 
@@ -33,7 +39,7 @@ public class PictureService {
         picture.setLatitude(latitude);
         picture.setLongitude(longitude);
         
-        String location_type = map_service.getMapService(Double.toString(latitude), Double.toString(longitude));
+        String location_type = getMapService(Double.toString(latitude), Double.toString(longitude));
         picture.setLocationType(location_type);
         em.persist(picture);
         return picture;
@@ -73,8 +79,19 @@ public class PictureService {
         picture.setUserId(user_id);
         picture.setLatitude(latitude);
         picture.setLongitude(longitude);
-        String location_type = map_service.getMapService(Double.toString(latitude), Double.toString(longitude)); // calling third party map service to get location type
+        String location_type = getMapService(Double.toString(latitude), Double.toString(longitude)); // calling third party map service to get location type
         picture.setLocationType(location_type);
         em.merge(picture);
     }
+
+    public String getMapService(String latitude, String longitude){ 
+    	RestTemplate restTemplate = new RestTemplate();       
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("latitude", latitude);
+        headers.add("longitude", longitude);
+		headers.setContentType(MediaType.APPLICATION_JSON);        
+		HttpEntity<String> entity = new HttpEntity<String>("parameters",headers);
+        ResponseEntity<Location> res = restTemplate.exchange(mapServiceUrl, HttpMethod.GET, entity, Location.class);   	
+        return res.getBody().getLocationType();  //return String location type "residential", "school", "office", etc
+    }        
 }
