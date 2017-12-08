@@ -37,30 +37,30 @@ public class PictureController {
     private static final Logger LOGGER = LoggerFactory.getLogger(PictureController.class);
     
     @RequestMapping(value = PICTURES_FREQUENCY, method = RequestMethod.GET)
-    public ResponseEntity getAllFrequency() throws Exception {
-        return new ResponseEntity<>(pictureService.getAllFrequency(),HttpStatus.FOUND);
+    public ResponseEntity<Integer> getAllFrequency() throws Exception {
+        return new ResponseEntity<Integer>(pictureService.getAllFrequency(),HttpStatus.FOUND);
     }
 
     @RequestMapping(value = PICTURES_FREQUENCY, method = RequestMethod.GET)
-    public ResponseEntity getUserFrequency(@RequestParam String user_id) throws Exception {
-        return new ResponseEntity<>(pictureService.getUserFrequency(user_id),HttpStatus.FOUND);
+    public ResponseEntity<Integer> getUserFrequency(@RequestParam String user_id) throws Exception {
+        return new ResponseEntity<Integer>(pictureService.getUserFrequency(user_id),HttpStatus.FOUND);
     }
     
     @RequestMapping(value = GET_PICTURES_BY_ID, method = RequestMethod.GET)
-    public ResponseEntity pictureById(@PathVariable  Integer id) {
-        return new ResponseEntity<> (this.pictureService.getPictureById(id), HttpStatus.FOUND);
+    public ResponseEntity<Picture> getPictureById(@PathVariable  Integer id) {
+        return new ResponseEntity<Picture> (this.pictureService.getPictureById(id), HttpStatus.FOUND);
     }
     
     @RequestMapping(value = PICTURES, method = RequestMethod.GET)
-    public ResponseEntity picture() throws Exception {
+    public ResponseEntity<Collection<Picture>> getAllPictures() throws Exception {
         Collection<Picture> pictures = pictureService.getAllPictures();
-        return new ResponseEntity<>(pictures, HttpStatus.FOUND);
+        return new ResponseEntity<Collection<Picture>>(pictures, HttpStatus.FOUND);
     }
 
     @RequestMapping(value = PICTURES, method = RequestMethod.POST)
-    public ResponseEntity addPicture(@RequestParam Mood mood, @RequestParam String user_id, @RequestParam Double longitude,  @RequestParam Double latitude ) {
+    public ResponseEntity<Integer> addPicture(@RequestParam Mood mood, @RequestParam String user_id, @RequestParam Double longitude,  @RequestParam Double latitude ) {
     		LOGGER.info("add cutomers");
-    		return new ResponseEntity<>(pictureService.createPicture(mood, user_id, latitude, longitude).getId(), HttpStatus.CREATED);
+    		return new ResponseEntity<Integer>(pictureService.createPicture(mood, user_id, latitude, longitude).getId(), HttpStatus.CREATED);
     }
 }
 

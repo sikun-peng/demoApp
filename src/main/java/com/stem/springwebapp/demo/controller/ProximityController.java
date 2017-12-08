@@ -39,13 +39,13 @@ public class ProximityController {
     @RequestMapping(value = PROXIMITY, method = RequestMethod.GET)
     public ResponseEntity<Collection<Proximity>> getAllproximity() throws Exception {
         Collection<Proximity> proximity = proximityService.getAllProximities();
-        return new ResponseEntity<> (proximity, HttpStatus.FOUND);
+        return new ResponseEntity<Collection<Proximity>> (proximity, HttpStatus.FOUND);
     }
     
     @RequestMapping(value = PROXIMITY, method = RequestMethod.GET)
     public ResponseEntity<Collection<Proximity>> getUserproximity(@RequestParam String user_id) throws Exception {
         Collection<Proximity> proximity = proximityService.getUserProximities(user_id);
-        return new ResponseEntity<>(proximity, HttpStatus.FOUND);
+        return new ResponseEntity<Collection<Proximity>>(proximity, HttpStatus.FOUND);
     }
 
 }
