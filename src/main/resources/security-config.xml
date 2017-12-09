@@ -16,8 +16,8 @@
 		disable-url-rewriting="true" use-expressions="true"
 		entry-point-ref="preAuthenticationEntryPoint" create-session="stateless">
         <intercept-url pattern=/swagger-resources, /v2/api-docs, /swagger-ui.html" access="permitAll" />
-        <intercept-url pattern="/picture/*" access="isFullyAuthenticated()" />
-        <intercept-url pattern="/proxymity/*" access="isFullyAuthenticated()" />
+        <intercept-url pattern="/V1/picture/*" access="isFullyAuthenticated()" />
+        <intercept-url pattern="/V1/proxymity/*" access="isFullyAuthenticated()" />
         <intercept-url pattern="/api/**" access="isFullyAuthenticated()" />
         
 		<anonymous enabled="true" />
