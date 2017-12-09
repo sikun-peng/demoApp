@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.stem.springwebapp.demo.handler.CustomException;
+import com.stem.springwebapp.demo.handler.InvalidInputException;
 import com.stem.springwebapp.demo.model.Mood;
 import com.stem.springwebapp.demo.model.Picture;
 import com.stem.springwebapp.demo.service.PictureService;
@@ -44,16 +44,20 @@ public class PictureController {
     }
 
     @RequestMapping(value = PICTURES_FREQUENCY, method = RequestMethod.GET)
-    @ExceptionHandler({CustomException.class})
+    @ExceptionHandler({InvalidInputException.class})
     public ResponseEntity<Integer> getUserFrequency(@RequestParam String user_id) throws Exception {
     	 	if(user_id.length() > 100 ){
-             throw new CustomException("user_id invalid");
+             throw new InvalidInputException("user_id invalid");
           } 
         return new ResponseEntity<Integer>(pictureService.getUserFrequency(user_id),HttpStatus.FOUND);
     }
     
     @RequestMapping(value = GET_PICTURES_BY_ID, method = RequestMethod.GET)
+    @ExceptionHandler({InvalidInputException.class})
     public ResponseEntity<Picture> getPictureById(@PathVariable  Integer id) {
+	 	if(id <= 0 ){
+            throw new InvalidInputException("id can not be negative");
+         } 
         return new ResponseEntity<Picture> (this.pictureService.getPictureById(id), HttpStatus.FOUND);
     }
     
@@ -64,8 +68,18 @@ public class PictureController {
     }
 
     @RequestMapping(value = PICTURES, method = RequestMethod.POST)
+    @ExceptionHandler({InvalidInputException.class})
     public ResponseEntity<Integer> addPicture(@RequestParam Mood mood, @RequestParam String user_id, @RequestParam Double longitude,  @RequestParam Double latitude ) {
-    		LOGGER.info("add cutomers");
+	 	if(user_id.length() >100){
+            throw new InvalidInputException("user_id invalid");
+         } 	
+	 	else if(latitude >180 || latitude < -180){
+	 		throw new InvalidInputException("invalid latitude value");
+	 	}
+	 	else if(longitude >180 || longitude < -180){
+	 		throw new InvalidInputException("invalid longitude value");
+	 	}
+	 	LOGGER.info("add cutomers");
     		return new ResponseEntity<Integer>(pictureService.createPicture(mood, user_id, latitude, longitude).getId(), HttpStatus.CREATED);
     }
 }

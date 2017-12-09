@@ -1,13 +1,13 @@
 package com.stem.springwebapp.demo.handler;
 
-public class CustomException extends RuntimeException {
+public class InvalidInputException extends RuntimeException {
 	   /**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 	private String exceptionMsg;
 	   
-	   public CustomException(String exceptionMsg) {
+	   public InvalidInputException(String exceptionMsg) {
 	      this.exceptionMsg = exceptionMsg;
 	   }
 	   public String getExceptionMsg(){

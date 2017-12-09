@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.stem.springwebapp.demo.handler.InvalidInputException;
 import com.stem.springwebapp.demo.model.Proximity;
 import com.stem.springwebapp.demo.service.ProximityService;
 
@@ -43,8 +45,12 @@ public class ProximityController {
     }
     
     @RequestMapping(value = PROXIMITY, method = RequestMethod.GET)
+    @ExceptionHandler({InvalidInputException.class})
     public ResponseEntity<Collection<Proximity>> getUserproximity(@RequestParam String user_id) throws Exception {
-        Collection<Proximity> proximity = proximityService.getUserProximities(user_id);
+	 	if(user_id.length() > 100 ){
+            throw new InvalidInputException("user_id invalid");
+         }     
+	 	Collection<Proximity> proximity = proximityService.getUserProximities(user_id);
         return new ResponseEntity<Collection<Proximity>>(proximity, HttpStatus.FOUND);
     }
 
